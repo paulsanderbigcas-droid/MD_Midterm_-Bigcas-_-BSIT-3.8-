@@ -4,174 +4,163 @@
 
 import 'dart:io';
 
-// Mixin for timestamping and printable details
-mixin PrintableDetails {
-  String getTimestamp() {
-    return DateTime.now().toIso8601String();
-  }
-
-  void printDetails() {
-    print('Generated at: ${getTimestamp()}');
+// Mixin
+mixin Printable {
+  void printDate() {
+    print("Date: ${DateTime.now()}");
   }
 }
 
-// Abstract Parent Class
-abstract class CenterRecord with PrintableDetails {
-  String _id;
-  String _name;
+// Abstract Class
+abstract class Record with Printable {
+  String id;
+  String name;
 
-  CenterRecord(this._id, this._name);
+  Record(this.id, this.name);
 
-  String get id => _id;
-  set id(String value) => _id = value;
-
-  String get name => _name;
-  set name(String value) => _name = value;
-
-  void displayInfo();
+  void display();
 }
 
-// Subclass 1: LearningResource
-class LearningResource extends CenterRecord {
-  String _category;
-  int _availableCopies;
+// Learning Resource Class
+class LearningResource extends Record {
+  String category;
+  int copies;
 
-  LearningResource(String id, String name, this._category, this._availableCopies)
+  LearningResource(
+      String id,
+      String name,
+      this.category,
+      this.copies)
       : super(id, name);
 
-  String get category => _category;
-  set category(String value) => _category = value;
-
-  int get availableCopies => _availableCopies;
-  set availableCopies(int value) {
-    if (value >= 0) _availableCopies = value;
-  }
-
   @override
-  void displayInfo() {
-    print('Resource ID: $id | Title: $name | Category: $category | Copies: $availableCopies');
-    printDetails();
+  void display() {
+    print("Resource ID: $id");
+    print("Title: $name");
+    print("Category: $category");
+    print("Copies Available: $copies");
+    printDate();
   }
 }
 
-// Subclass 2: Participant
-class Participant extends CenterRecord {
-  String _email;
-  String _enrolledCourse;
+// Participant Class
+class Participant extends Record {
+  String email;
 
-  Participant(String id, String name, this._email, this._enrolledCourse)
+  Participant(
+      String id,
+      String name,
+      this.email)
       : super(id, name);
 
-  String get email => _email;
-  set email(String value) => _email = value;
-
-  String get enrolledCourse => _enrolledCourse;
-  set enrolledCourse(String value) => _enrolledCourse = value;
-
   @override
-  void displayInfo() {
-    print('Participant ID: $id | Name: $name | Email: $email | Course: $enrolledCourse');
-    printDetails();
+  void display() {
+    print("Participant ID: $id");
+    print("Name: $name");
+    print("Email: $email");
+    printDate();
   }
 }
 
 void main() {
-  List<CenterRecord> records = [];
-  Map<String, int> transactionLogs = {};
+  List<Record> records = [];
 
-  bool running = true;
+  while (true) {
+    print("\n=== COMMUNITY LEARNING CENTER ===");
+    print("1. Add Resource");
+    print("2. Add Participant");
+    print("3. View Records");
+    print("4. Borrow Resource");
+    print("5. Exit");
 
-  while (running) {
-    print('\n==================================================');
-    print('   COMMUNITY LEARNING CENTER MANAGEMENT SYSTEM');
-    print('   Developer: Bigcas Paul Sander B. (424005636)');
-    print('==================================================');
-    print('1. Add Learning Resource');
-    print('2. Register Participant');
-    print('3. View All Records (Polymorphism)');
-    print('4. Process Resource Borrow Transaction');
-    print('5. Exit');
-    stdout.write('Enter your choice (1-5): ');
+    stdout.write("Enter Choice: ");
+    int choice = int.tryParse(stdin.readLineSync() ?? "") ?? 0;
 
-    String? input = stdin.readLineSync();
-    try {
-      int choice = int.parse(input ?? '0');
+    switch (choice) {
+      case 1:
+        stdout.write("Resource ID: ");
+        String id = stdin.readLineSync()!;
 
-      switch (choice) {
-        case 1:
-          stdout.write('Enter Resource ID: ');
-          String resId = stdin.readLineSync() ?? '';
-          stdout.write('Enter Resource Name: ');
-          String resName = stdin.readLineSync() ?? '';
-          stdout.write('Enter Category: ');
-          String category = stdin.readLineSync() ?? '';
-          stdout.write('Enter Available Copies: ');
-          int copies = int.parse(stdin.readLineSync() ?? '0');
+        stdout.write("Title: ");
+        String title = stdin.readLineSync()!;
 
-          records.add(LearningResource(resId, resName, category, copies));
-          print('Successfully added learning resource!');
-          break;
+        stdout.write("Category: ");
+        String category = stdin.readLineSync()!;
 
-        case 2:
-          stdout.write('Enter Participant ID: ');
-          String partId = stdin.readLineSync() ?? '';
-          stdout.write('Enter Participant Name: ');
-          String partName = stdin.readLineSync() ?? '';
-          stdout.write('Enter Email: ');
-          String email = stdin.readLineSync() ?? '';
-          stdout.write('Enter Enrolled Course: ');
-          String course = stdin.readLineSync() ?? '';
+        stdout.write("Copies: ");
+        int copies = int.parse(stdin.readLineSync()!);
 
-          records.add(Participant(partId, partName, email, course));
-          print('Successfully registered participant!');
-          break;
+        records.add(
+          LearningResource(id, title, category, copies),
+        );
 
-        case 3:
-          if (records.isEmpty) {
-            print('No records found in the system.');
-          } else {
-            print('\n--- ALL CENTER RECORDS ---');
-            // Demonstrating polymorphism via shared parent type CenterRecord
-            for (var record in records) {
-              record.displayInfo();
-              print('--------------------------');
-            }
-          }
-          break;
+        print("Resource Added Successfully!");
+        break;
 
-        case 4:
-          stdout.write('Enter Resource ID to borrow: ');
-          String targetId = stdin.readLineSync() ?? '';
-          bool found = false;
+      case 2:
+        stdout.write("Participant ID: ");
+        String id = stdin.readLineSync()!;
 
+        stdout.write("Name: ");
+        String name = stdin.readLineSync()!;
+
+        stdout.write("Email: ");
+        String email = stdin.readLineSync()!;
+
+        records.add(
+          Participant(id, name, email),
+        );
+
+        print("Participant Registered!");
+        break;
+
+      case 3:
+        if (records.isEmpty) {
+          print("No records found.");
+        } else {
+          print("\n=== ALL RECORDS ===");
           for (var record in records) {
-            if (record is LearningResource && record.id == targetId) {
-              found = true;
-              if (record.availableCopies > 0) {
-                record.availableCopies -= 1;
-                transactionLogs[targetId] = (transactionLogs[targetId] ?? 0) + 1;
-                print('Borrow successful! Remaining copies: ${record.availableCopies}');
-              } else {
-                print('Error: No copies available for this resource.');
-              }
+            record.display(); // Polymorphism
+            print("-------------------");
+          }
+        }
+        break;
+
+      case 4:
+        stdout.write("Enter Resource ID to Borrow: ");
+        String resourceId = stdin.readLineSync()!;
+
+        bool found = false;
+
+        for (var record in records) {
+          if (record is LearningResource &&
+              record.id == resourceId) {
+            found = true;
+
+            if (record.copies > 0) {
+              record.copies--;
+              print("Borrow Successful!");
+              print(
+                  "Remaining Copies: ${record.copies}");
+            } else {
+              print("No copies available.");
             }
           }
-          if (!found) {
-            print('Error: Learning resource with ID "$targetId" not found.');
-          }
-          break;
+        }
 
-        case 5:
-          running = false;
-          print('Exiting application. Thank you!');
-          break;
+        if (!found) {
+          print("Resource not found.");
+        }
+        break;
 
-        default:
-          print('Invalid choice. Please enter a number between 1 and 5.');
-      }
-    } catch (e) {
-      print('Error: Invalid input format detected. Please try again.');
+      case 5:
+        print("Thank you for using the system!");
+        return;
+
+      default:
+        print("Invalid choice.");
     }
   }
 }
+
 
