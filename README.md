@@ -26,12 +26,4 @@ A command-line console application written in **Dart** that demonstrates core Ob
 
 ---
 
-##  Getting Started
 
-### Prerequisites
-
-Make sure you have the [Dart SDK](https://dart.dev/get-dart) installed on your machine.
-
-You can verify your installation by running:
-```bash
-dart --version
