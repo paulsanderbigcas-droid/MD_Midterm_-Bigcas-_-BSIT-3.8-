@@ -1,12 +1,12 @@
 # Community-Learning-Management-System
 
-# Community Learning Center Management System 📚
+# Community Learning Center Management System 
 
 A command-line console application written in **Dart** that demonstrates core Object-Oriented Programming (OOP) concepts such as inheritance, abstract classes, mixins, polymorphism, and type checking.
 
 ---
 
-## ✨ Features
+##  Features
 
 - **Add Learning Resources**: Register new books, tools, or learning materials with tracking for available copies.
 - **Register Participants**: Add participants/users to the system with their IDs, names, and emails.
@@ -16,7 +16,7 @@ A command-line console application written in **Dart** that demonstrates core Ob
 
 ---
 
-## 🛠️ Concepts & Principles Demonstrated
+##  Concepts & Principles Demonstrated
 
 - **Abstract Classes**: `Record` serves as a blueprint containing shared properties (`id`, `name`) and an abstract `display()` method.
 - **Inheritance**: `LearningResource` and `Participant` extend `Record` to reuse common structure and specialize behavior.
@@ -26,7 +26,7 @@ A command-line console application written in **Dart** that demonstrates core Ob
 
 ---
 
-## 🚀 Getting Started
+##  Getting Started
 
 ### Prerequisites
 
